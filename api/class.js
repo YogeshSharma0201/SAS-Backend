@@ -103,27 +103,17 @@ router.put('/:id', async function(req, res) {
 
    })
 })
-router.post('/:id', function(req, res) {
-   console.log(req.body);
-   res.send('done');
-})
-router.patch('/:id', async function(req, res) {
-   console.log(req);
-   res.send('done');
-})
 
 router.post('/', async function(req, res) {
-   var {name, teacher_id} = req.body;
+   var {name, teacherId} = req.body;
+   console.log(req.body);
    var [classObj, created] = await Class.findOrCreate({
-      where: {name}
+      where: {name},
+      defaults: {teacherId}
    });
    
    if(created) {
-      await UserClass.create({
-         userId: teacher_id,
-         classId: classObj.id
-      });
-      res.send('Class created successfully!');
+      res.send(classObj);
    } else {
       res.send('Class with this name already exist!');
    }

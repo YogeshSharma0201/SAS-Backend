@@ -81,9 +81,13 @@ app.get('/login',
   });
   
 app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local'),
   function(req, res) {
-    res.redirect('/');
+    if(req.user) {
+      res.send({ user: req.user });
+    } else {
+      res.send({ user: null });
+    }
   });
   
 app.get('/logout',
