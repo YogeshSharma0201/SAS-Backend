@@ -3,7 +3,7 @@ var cors = require('cors');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var apiRouter = require('./api');
-var {User} = require('./models');
+var {User, Class} = require('./models');
 
 // Configure the local strategy for use by Passport.
 //
@@ -13,7 +13,16 @@ var {User} = require('./models');
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
   function(email, password, cb) {
-    User.findOne({ where: {email} }).then(function(user) {
+    User.findOne({ 
+      where: {email} ,
+      include: [
+        {
+           model: Class,
+           as: 'classesTeaching',
+           required: false
+        }
+     ]
+    }).then(function(user) {
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
       return cb(null, user);
@@ -34,7 +43,15 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  User.findByPk(id).then(function (user) {
+  User.findByPk(id, {
+    include: [
+       {
+          model: Class,
+          as: 'classesTeaching',
+          required: false
+       }
+    ]
+  }).then(function (user) {
     cb(null, user);
   }).catch(err => cb(err));
 });

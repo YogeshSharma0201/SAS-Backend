@@ -119,6 +119,14 @@ router.post('/', async function(req, res) {
    }
 })
 
+router.post('/setSession', async function(req, res) {
+   var _class = await Class.findByPk(req.body.id);
+   _class.inSession = req.body.inSession;
+   _class.save().then((obj)=>{
+      res.send('Done');
+   })
+})
+
 router.post('/users', function(req, res) {
    var {classId, userId} = req.body;
    UserClass.create({

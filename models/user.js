@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'classId'
     });
 
+    User.hasMany(models.Class, {
+      as: 'classesTeaching',
+      foreignKey: 'teacherId',
+      constraints: false
+    }) 
+
     User.belongsToMany(models.Attendance, {
       through: 'UserAttendances',
       as: 'attendanceReports',

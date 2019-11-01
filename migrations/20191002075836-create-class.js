@@ -15,6 +15,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      inSession: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

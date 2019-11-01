@@ -16,6 +16,13 @@ router.get('/', async function(req, res){
 
 router.get('/:id', async function(req, res){
    let userObj = await User.findByPk(req.params.id, {
+      include: [
+         {
+            model: Class,
+            as: 'classesTeaching',
+            required: false
+         }
+      ]
   });
    if(userObj == null) {
       res.status(404);
