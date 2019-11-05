@@ -30,6 +30,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      netPassword: {
+        type: Sequelize.STRING
+      },
+      SSID: {
+        type: Sequelize.STRING
+      },
       rollNo: {
         type: Sequelize.STRING,
       }, 

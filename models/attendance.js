@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Attendance.belongsTo(models.Class, {
-      as: 'class'
+      as: 'class',
+      foreignKey: 'classId',
+      constraints: false
     });
   };
   return Attendance;

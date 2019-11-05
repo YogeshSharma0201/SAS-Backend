@@ -29,6 +29,12 @@ module.exports = {
       }, {
         attendanceId: '2',
         userId: '4',
+      }, {
+        attendanceId: '3',
+        userId: '1',
+      }, {
+        attendanceId: '5',
+        userId: '1',
       }], {});
   },
 

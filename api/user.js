@@ -56,5 +56,15 @@ router.post('/', async function(req, res) {
    }
 })
 
+router.post('/updateWifiConfig', async function(req, res) {
+   var user = await User.findByPk(req.body.id);
+   user.macAddress = req.body.macAddress;
+   user.SSID = req.body.SSID;
+   user.netPassword = req.body.netPassword;
+   user.save().then((obj)=>{
+      res.send('Done');
+   })
+})
+
 //export this router to use in our index.js
 module.exports = router;

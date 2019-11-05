@@ -3,7 +3,7 @@ var cors = require('cors');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var apiRouter = require('./api');
-var {User, Class} = require('./models');
+var {User, Class, UserClass} = require('./models');
 
 // Configure the local strategy for use by Passport.
 //
@@ -20,7 +20,20 @@ passport.use(new Strategy(
            model: Class,
            as: 'classesTeaching',
            required: false
-        }
+        },
+        {
+          model: Class,
+          as: 'classes',
+          required: false,
+          through: {
+             model: UserClass,
+             as: 'userclasses' 
+          },
+          include: [{
+             model: User,
+             as: 'teacher'
+          }]
+       },
      ]
     }).then(function(user) {
       if (!user) { return cb(null, false); }
