@@ -120,10 +120,32 @@ router.post('/', async function(req, res) {
 })
 
 router.post('/setSession', async function(req, res) {
+   console.log('setSession', req.body.inSession);
    var _class = await Class.findByPk(req.body.id);
-   _class.inSession = req.body.inSession;
-   _class.save().then((obj)=>{
-      res.send('Done');
+   var teacherId = _class.teacherId;
+   var teacher = await User.findByPk(teacherId, {
+      include: [
+         {
+            model: Class,
+            as: 'classesTeaching',
+            required: false
+         }
+      ]
+   })
+   console.log(teacher);
+   var classes = teacher.classesTeaching;
+   var Promises = [];
+   for(var i=0; i<classes.length; i++) {
+      classes[i].inSession = false;
+      Promises.push(classes[i].save());
+   }
+   Promise.all(Promises).then(()=>{
+      _class.inSession = req.body.inSession;
+      _class.save().then((obj)=>{
+         res.send('Session Set');
+      })
+   }).catch(err => {
+      res.send(err);
    })
 })
 

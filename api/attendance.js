@@ -58,6 +58,10 @@ router.post('/', async function(req, res) {
    var {classId, students} = req.body;
    var attendance = await Attendance.create({classId});
    var Promises = [];
+   console.log(students, typeof students);
+   if(typeof students === 'string') {
+      students = students.split(',');
+   }
    students.forEach((student)=>{
       var promise = UserAttendance.create({
          attendanceId: attendance.id,
